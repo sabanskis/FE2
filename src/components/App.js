@@ -9,17 +9,28 @@ export default class App extends React.Component {
 
     this.state = {
       movieList: [],
+      genresList: [],
     };
 
     this.requestMovies();
+    this.requestGenres();
   }
 
   requestMovies = () => {
     axios
-      .get(endpoints.mostPopularMovies())
+      .get(endpoints.genreMovies())
       .then((res) => this.setMovieList(res.data.results))
       .catch((error) => console.log(error));
   };
+
+    requestGenres = () => {
+        axios
+            .get(endpoints.genres())
+            .then((res) => this.setGenresList(res.data.results))
+            .catch((error) => console.log(error));
+    };
+
+
 
   setMovieList = (movieList) => {
     this.setState({
@@ -27,9 +38,20 @@ export default class App extends React.Component {
     })
   };
 
-  render() {
-    const { movieList } = this.state;
 
+    setGenresList = (genresList) => {
+        this.setState({
+            genresList,
+        })
+    };
+
+  render() {
+
+    const { movieList, genresList } = this.state;
+
+
+    console.log(movieList);
+    console.log(genresList);
     return (
       <div className="cards">
         {movieList.map((movie) => <Card movie={movie} />)}
